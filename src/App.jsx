@@ -6,7 +6,7 @@ import Register from "./componets/forms/Register"
 
 function App() {
 
-  let user = false;
+  let user = true;
   return (
     <>
     {user?(
