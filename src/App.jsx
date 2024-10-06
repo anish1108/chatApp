@@ -6,7 +6,8 @@ import Register from "./componets/forms/Register"
 
 function App() {
 
-  let user = true;
+  let user = false;
+  
   return (
     <>
     {user?(
@@ -17,7 +18,7 @@ function App() {
       </div>
     ) :
     ( <div className="h-screen flex justify-center items-center bg-slate-500">
-      <Login/>
+      <Register/>
     </div> )}
       
 

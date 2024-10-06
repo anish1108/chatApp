@@ -1,19 +1,50 @@
 import React from "react";
 import { useFormik } from 'formik';
+// import app from "../../firebaseConfig";
+import app from "../../firebaseConfig";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
 
+
+  const auth = getAuth(app);
   const formik = useFormik({
     initialValues: {
       email: '',
       username: '',
       password: '',
     },
-    onSubmit: values => {
+    onSubmit: async (values) => {
       //   alert(JSON.stringify(values, null, 2));
       console.log(values)
+      const {email, password} = values
+      console.log(typeof(email))
+      // console.log(email)
+      // console.log(password)
+      
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user;
+        alert("Account created")
+        console.log(user)
+      }  catch (error) {
+        console.log("Error:", error.code, error.message);
+        if (error.code === 'auth/network-request-failed') {
+          alert('Network error. Please check your connection.');
+        } else if (error.code === 'auth/email-already-in-use') {
+          alert('This email is already in use.');
+        } else if (error.code === 'auth/invalid-email') {
+          alert('Invalid email format.');
+        } else if (error.code === 'auth/weak-password') {
+          alert('Password should be at least 6 characters.');
+        } else {
+          alert('Error: ' + error.message);
+        }
+      }
     },
   });
+
+
 
   return (
     <div className="w-[50%] max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
@@ -162,9 +193,9 @@ const Register = () => {
             </div>
             <div className="text-center">
               <button
-
-                className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-gray-900 to-slate-800 hover:border-slate-700 hover:bg-slate-700 hover:text-white"
                 type="submit"
+                className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-gray-900 to-slate-800 hover:border-slate-700 hover:bg-slate-700 hover:text-white"
+                
               >
                 Sign up
               </button>
