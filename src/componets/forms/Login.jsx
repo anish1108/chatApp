@@ -13,7 +13,7 @@ const Login = () => {
       loginpassword: '',
     },
     onSubmit: values => {
-      console.log(values)
+      // console.log(values)
       const { loginemail, loginpassword } = values;
 
       signInWithEmailAndPassword(auth, loginemail, loginpassword)
@@ -21,6 +21,7 @@ const Login = () => {
           // Signed in 
           const user = userCredential.user;
           alert("you are signed in")
+          console.log( values)
           // ...
         })
         .catch((error) => {

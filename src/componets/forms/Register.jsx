@@ -1,10 +1,32 @@
 import React from "react";
 import { useFormik } from 'formik';
-// import app from "../../firebaseConfig";
 import app from "../../firebaseConfig";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+
+import { collection, addDoc } from "firebase/firestore";
+import firebaseConfig from "../../firebaseConfig";
 
 const Register = () => {
+
+  const db = getFirestore(app);
+
+  async function adduser(values) {
+    alert("enterd in the database")
+    console.log( values)
+    try {
+      console.log("inside thie try blck")
+      const docRef = await addDoc(collection(db, "users"), {
+        username: values.username,
+        email: values.email, 
+        password: values.password
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }    
+  }
 
 
   const auth = getAuth(app);
@@ -15,18 +37,14 @@ const Register = () => {
       password: '',
     },
     onSubmit: async (values) => {
-      //   alert(JSON.stringify(values, null, 2));
       console.log(values)
       const {email, password} = values
-      console.log(typeof(email))
-      // console.log(email)
-      // console.log(password)
+
       
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        const user = userCredential.user;
         alert("Account created")
-        console.log(user)
+        adduser(values)
       }  catch (error) {
         console.log("Error:", error.code, error.message);
         if (error.code === 'auth/network-request-failed') {
@@ -43,6 +61,8 @@ const Register = () => {
       }
     },
   });
+
+
 
 
 

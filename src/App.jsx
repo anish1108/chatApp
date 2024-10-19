@@ -18,7 +18,7 @@ function App() {
       </div>
     ) :
     ( <div className="h-screen flex justify-center items-center bg-slate-500">
-      <Register/>
+      <Login/>
     </div> )}
       
 
