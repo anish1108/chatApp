@@ -4,13 +4,19 @@ import Rightside from "./componets/rightside/Rightside"
 import Login from "./componets/forms/Login"
 import Register from "./componets/forms/Register"
 
+import { UserContext } from "./context"
+import { useContext } from "react"
+
 function App() {
 
-  let user = false;
+
+  const {mainpage} = useContext(UserContext)
+
+  // let user = mainpage;
   
   return (
     <>
-    {user?(
+    {mainpage?(
       <div className="h-screen flex gap-x-5 justify-between bg-gray-600 ">
         <Leftside />
         <Middle />

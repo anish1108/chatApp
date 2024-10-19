@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
+import { UserContext } from "../../context";
+import { useState } from "react";
+
 
 const Login = () => {
+
+
+  const {setMainpage} = useContext(UserContext)
+
 
   const auth = getAuth();
 
@@ -21,6 +28,7 @@ const Login = () => {
           // Signed in 
           const user = userCredential.user;
           alert("you are signed in")
+          setMainpage(true)
           console.log( values)
           // ...
         })
